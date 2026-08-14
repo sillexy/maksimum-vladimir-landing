@@ -1,0 +1,224 @@
+/* Offline layout correction: the embedded benefits document is 597px high. */
+html body,
+html body *,
+#offline-review-modal,
+#offline-review-modal * {
+  font-family: GolosText, Arial, sans-serif !important;
+}
+
+/* Use the supplied illustration in the first-screen hero without changing its layout. */
+img[src="images/image-54fa23705b.jpg"] {
+  content: url("../images/hero-image.webp") !important;
+  object-fit: contain !important;
+}
+
+/* Keep the header dimensions while displaying the supplied logo asset. */
+img[src="images/image-786b130475.jpg"] {
+  content: url("../images/offline-logo.webp") !important;
+  object-fit: contain !important;
+}
+
+/* Hide only the six primary navigation items shown in the header. */
+header ul.sc-af66aef5-0 > li {
+  position: absolute !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+[id="8ad80d4b-dd6b-4b77-8e1b-49679da9795d1"],
+[id="8ad80d4b-dd6b-4b77-8e1b-49679da9795d1"] section,
+[id="8ad80d4b-dd6b-4b77-8e1b-49679da9795d1"] > section > div,
+[id="8ad80d4b-dd6b-4b77-8e1b-49679da9795d1"] iframe {
+  height: 597px !important;
+}
+
+[id="8ad80d4b-dd6b-4b77-8e1b-49679da9795d1"] iframe {
+  display: block;
+  width: 100% !important;
+  border: 0;
+}
+
+
+/* Separate the consultation offer from the preceding benefits block. */
+[id="1"] {
+  margin-top: 64px;
+}
+
+/* The original reviews carousel needs JavaScript to remove its hidden state.
+   Render its existing four slides as a fixed, readable offline grid instead. */
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__track {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__list {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 24px;
+  height: auto !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-3456f945-0,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-3456f945-1,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-0,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide * {
+  visibility: visible !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-3456f945-0,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-3456f945-1,
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-0 {
+  width: auto !important;
+  height: 100% !important;
+  margin: 0 !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card {
+  position: relative;
+  height: 382px !important;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-bottom: 58px;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card .sc-af0bad81-9 {
+  display: -webkit-box !important;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card .sc-af0bad81-1 {
+  display: none !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-4 {
+  display: flex !important;
+  width: 60px !important;
+  height: 60px !important;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(27% 4%, 77% 0%, 100% 35%, 83% 85%, 31% 100%, 0% 64%);
+  background: #f3eee8;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-5 {
+  width: auto !important;
+  color: #5a5a5a;
+  font-size: 28px !important;
+  font-weight: 600;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(2) .sc-af0bad81-4 { background: #edf9f2; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(3) .sc-af0bad81-4 { background: #eaf6ff; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(4) .sc-af0bad81-4 { background: #ffd8d8; }
+
+/* Use the supplied review icons at the same 60px avatar size. */
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card .sc-af0bad81-4 {
+  clip-path: none !important;
+  border-radius: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Apply the replacement even if the offline review script is blocked. */
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-1 {
+  display: none !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-4 {
+  clip-path: none !important;
+  border-radius: 0;
+  background: transparent !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-5 {
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card .sc-af0bad81-5 {
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(1) .sc-af0bad81-4 { background-image: url("../images/offline-review-vladimir.webp") !important; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(2) .sc-af0bad81-4 { background-image: url("../images/offline-review-nikita.webp") !important; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(3) .sc-af0bad81-4 { background-image: url("../images/offline-review-natalya.webp") !important; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(4) .sc-af0bad81-4 { background-image: url("../images/offline-review-tv.webp") !important; }
+
+/* Replace the avatar element itself so no old initials or image layers remain. */
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(1) .sc-af0bad81-4 { content: url("../images/offline-review-vladimir.webp") !important; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(2) .sc-af0bad81-4 { content: url("../images/offline-review-nikita.webp") !important; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(3) .sc-af0bad81-4 { content: url("../images/offline-review-natalya.webp") !important; }
+[id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide:nth-child(4) .sc-af0bad81-4 { content: url("../images/offline-review-tv.webp") !important; }
+
+.offline-review-card__more {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1;
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 13px;
+  background: #fff;
+  color: #1c1c1c;
+  font: 500 12px/1.2 Arial, sans-serif;
+  cursor: pointer;
+}
+
+#offline-review-modal[hidden] { display: none; }
+#offline-review-modal { position: fixed; inset: 0; z-index: 10000; }
+.offline-review-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 24, 24, .42);
+  backdrop-filter: blur(8px);
+}
+.offline-review-modal__dialog {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: min(540px, calc(100% - 32px));
+  max-height: min(520px, calc(100vh - 48px));
+  margin: 50vh auto 0;
+  transform: translateY(-50%);
+  overflow: auto;
+  border-radius: 20px;
+  padding: 28px 24px;
+  background: #fff;
+  color: #111;
+}
+.offline-review-modal__title { margin: 0 42px 18px 0; font: 600 16px/1.2 Arial, sans-serif; }
+.offline-review-modal__text { margin: 0; font: 400 15px/1.45 Arial, sans-serif; white-space: pre-line; }
+.offline-review-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  border: 0;
+  background: transparent;
+  color: #999;
+  font: 300 34px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+.offline-review-modal-open { overflow: hidden; }
+
+@media (max-width: 900px) {
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__list {
+    grid-template-columns: 1fr !important;
+  }
+}
