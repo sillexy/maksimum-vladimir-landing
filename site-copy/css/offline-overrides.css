@@ -12,10 +12,16 @@ img[src="images/image-54fa23705b.jpg"] {
   object-fit: contain !important;
 }
 
-/* Keep the header dimensions while displaying the supplied logo asset. */
+/* Keep the replacement logo constrained inside the header. */
 img[src="images/image-786b130475.jpg"] {
   content: url("../images/offline-logo.webp") !important;
+  display: block !important;
+  width: 190px !important;
+  height: 48px !important;
+  max-width: 190px !important;
+  max-height: 48px !important;
   object-fit: contain !important;
+  object-position: left center !important;
 }
 
 /* Hide only the six primary navigation items shown in the header. */
