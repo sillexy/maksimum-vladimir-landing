@@ -1,4 +1,43 @@
 (() => {
+  const advantages = document.getElementById('8ad80d4b-dd6b-4b77-8e1b-49679da9795d1');
+
+  if (advantages) {
+    advantages.innerHTML = `
+      <section class="offline-advantages" aria-labelledby="offline-advantages-title">
+        <div class="offline-advantages__inner">
+          <h2 class="offline-advantages__title" id="offline-advantages-title">Преимущества консультации по профориентации</h2>
+
+          <div class="offline-advantages__grid">
+            <article class="offline-advantages__card offline-advantages__card--quality">
+              <div class="offline-advantages__copy offline-advantages__copy--quality">
+                <h3>Гарантия качества</h3>
+                <p>Это не просто тест из интернета, а уникальная методика оценки личности школьника</p>
+              </div>
+              <img class="offline-advantages__image offline-advantages__image--quality" src="images/advantages1.webp" alt="" decoding="async" />
+            </article>
+
+            <div class="offline-advantages__side">
+              <article class="offline-advantages__card offline-advantages__card--experts">
+                <div class="offline-advantages__copy offline-advantages__copy--experts">
+                  <h3>Опытные эксперты-<br>профориентологи</h3>
+                  <p>Наши консультации уже прошли более 2 млн. учеников по всей России</p>
+                </div>
+                <img class="offline-advantages__image offline-advantages__image--experts" src="images/advantages2.webp" alt="" decoding="async" />
+              </article>
+
+              <article class="offline-advantages__card offline-advantages__card--advice">
+                <div class="offline-advantages__copy offline-advantages__copy--advice">
+                  <h3>Практические советы</h3>
+                  <p>Получите четкие и понятные рекомендации по выбранной профессии и шагам обучения</p>
+                </div>
+                <img class="offline-advantages__image offline-advantages__image--advice" src="images/advantages3.webp" alt="" decoding="async" />
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>`;
+  }
+
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
   if (!section) return;
 
