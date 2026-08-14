@@ -38,6 +38,18 @@
       </section>`;
   }
 
+  const consultationImage = document.querySelector(
+    '#ee34b58c-b141-491b-9775-4fb1adbfdbce img[alt="Изображение карточки"]'
+  );
+
+  if (consultationImage) {
+    consultationImage.removeAttribute('srcset');
+    consultationImage.removeAttribute('sizes');
+    consultationImage.src = 'images/GreenWoman.webp';
+    consultationImage.style.objectFit = 'contain';
+    consultationImage.style.objectPosition = 'right bottom';
+  }
+
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
   if (!section) return;
 
