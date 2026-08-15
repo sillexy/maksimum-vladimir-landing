@@ -48,6 +48,102 @@
 
   const leadRoot = document.getElementById('50f91115-b4f9-4cd8-aba9-a46e915220334');
   if (leadRoot) {
+    const formStyle = document.createElement('style');
+    formStyle.textContent = `
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown {
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__trigger {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: 48px !important;
+        box-sizing: border-box !important;
+        padding: 0 44px 0 12px !important;
+        border: 1px solid transparent !important;
+        border-radius: 9px !important;
+        outline: none !important;
+        background: #f5f5f5 !important;
+        color: #9aa4b3 !important;
+        font: inherit !important;
+        font-size: 16px !important;
+        text-align: left !important;
+        cursor: pointer !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown.is-open .offline-grade-dropdown__trigger {
+        border-color: #ff7a0d !important;
+        background: #fff !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown.has-value .offline-grade-dropdown__trigger {
+        color: #111 !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__chevron {
+        position: absolute !important;
+        top: 50% !important;
+        right: 16px !important;
+        width: 8px !important;
+        height: 8px !important;
+        margin-top: -6px !important;
+        border-right: 1px solid #8c8c8c !important;
+        border-bottom: 1px solid #8c8c8c !important;
+        transform: rotate(45deg) !important;
+        transition: transform .15s ease, margin-top .15s ease !important;
+        pointer-events: none !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown.is-open .offline-grade-dropdown__chevron {
+        margin-top: -2px !important;
+        transform: rotate(225deg) !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__menu[hidden] {
+        display: none !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__menu {
+        position: absolute !important;
+        top: calc(100% + 6px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 10020 !important;
+        box-sizing: border-box !important;
+        padding: 6px 4px !important;
+        border: 0 !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .14) !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__option {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: 32px !important;
+        box-sizing: border-box !important;
+        padding: 0 12px !important;
+        border: 0 !important;
+        border-radius: 4px !important;
+        outline: none !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        background: #fff !important;
+        color: #111 !important;
+        font: inherit !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        text-align: left !important;
+        cursor: pointer !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__option:hover,
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__option:focus-visible {
+        background: #f7f7f7 !important;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-grade-dropdown__option.is-selected {
+        background: #fff1e6 !important;
+        font-weight: 600 !important;
+      }
+    `;
+    document.head.append(formStyle);
+
     const parentNameInput = leadRoot.querySelector('#parentName, input[name="parentName"]');
     const parentPhoneInput = leadRoot.querySelector('#parentPhone, input[name="parentPhone"]');
     const parentNameItem = parentNameInput?.closest('.ant-form-item') || parentNameInput?.parentElement?.parentElement;
@@ -114,7 +210,6 @@
       [...leadRoot.querySelectorAll('span, div, p')].find(
         (node) => node.children.length === 0 && node.textContent.trim() === text
       );
-
     const originalGradeInput = leadRoot.querySelector('#grade, input[name="grade"], input[id*="grade" i]');
     const gradePlaceholder = findLeafByText('В какой класс поступает ученик');
     const gradeItem = originalGradeInput?.closest('.ant-form-item') || gradePlaceholder?.closest('.ant-form-item') || null;
@@ -127,8 +222,7 @@
         <span class="offline-grade-dropdown__chevron" aria-hidden="true"></span>
       </button>
       <div class="offline-grade-dropdown__menu" role="listbox" hidden>
-        ${[5, 6, 7, 8, 9, 10, 11].map((grade) => `
-          <button class="offline-grade-dropdown__option" type="button" role="option" data-grade="${grade}" aria-selected="false">${grade} класс</button>`).join('')}
+        ${[5, 6, 7, 8, 9, 10, 11].map((grade) => `<button class="offline-grade-dropdown__option" type="button" role="option" data-grade="${grade}" aria-selected="false">${grade} класс</button>`).join('')}
       </div>
       <input type="hidden" name="grade" class="offline-grade-dropdown__hidden" value="">`;
 
@@ -156,7 +250,6 @@
     const menu = gradeWrap.querySelector('.offline-grade-dropdown__menu');
     const hiddenInput = gradeWrap.querySelector('.offline-grade-dropdown__hidden');
     const options = [...gradeWrap.querySelectorAll('.offline-grade-dropdown__option')];
-
     const closeGradeMenu = () => {
       gradeWrap.classList.remove('is-open');
       menu.hidden = true;
@@ -167,14 +260,12 @@
       menu.hidden = false;
       trigger.setAttribute('aria-expanded', 'true');
     };
-
     trigger.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
       if (menu.hidden) openGradeMenu();
       else closeGradeMenu();
     });
-
     options.forEach((option) => {
       option.addEventListener('click', (event) => {
         event.preventDefault();
@@ -197,7 +288,6 @@
         trigger.focus();
       });
     });
-
     document.addEventListener('click', (event) => {
       if (!gradeWrap.contains(event.target)) closeGradeMenu();
     });
@@ -221,7 +311,6 @@
 
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
   if (!section) return;
-
   const modal = document.createElement('div');
   modal.id = 'offline-review-modal';
   modal.hidden = true;
