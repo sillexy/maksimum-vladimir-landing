@@ -98,7 +98,8 @@
         display: none !important;
       }
 
-      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .ant-radio-button-wrapper-checked {
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .ant-radio-button-wrapper-checked,
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .offline-user-type-active {
         background: #ff7a0d !important;
         color: #fff !important;
         font-weight: 600 !important;
@@ -123,6 +124,100 @@
         display: block !important;
         width: 25px !important;
         height: 25px !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select {
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__trigger {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: 48px !important;
+        box-sizing: border-box !important;
+        padding: 0 42px 0 12px !important;
+        border: 1px solid transparent !important;
+        border-radius: 9px !important;
+        outline: none !important;
+        background: #f5f5f5 !important;
+        color: #9aa4b3 !important;
+        font: inherit !important;
+        font-size: 16px !important;
+        text-align: left !important;
+        cursor: pointer !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select.is-open .offline-class-select__trigger {
+        border-color: #ff7a0d !important;
+        background: #fff !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select.has-value .offline-class-select__trigger {
+        color: #111 !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__chevron {
+        position: absolute !important;
+        top: 50% !important;
+        right: 16px !important;
+        width: 8px !important;
+        height: 8px !important;
+        margin-top: -6px !important;
+        border-right: 1px solid #8c8c8c !important;
+        border-bottom: 1px solid #8c8c8c !important;
+        transform: rotate(45deg) !important;
+        transition: transform .15s ease, margin-top .15s ease !important;
+        pointer-events: none !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select.is-open .offline-class-select__chevron {
+        margin-top: -2px !important;
+        transform: rotate(225deg) !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__menu[hidden] {
+        display: none !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__menu {
+        position: absolute !important;
+        top: calc(100% + 4px) !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 10020 !important;
+        box-sizing: border-box !important;
+        padding: 4px !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .14) !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__option {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: 32px !important;
+        box-sizing: border-box !important;
+        padding: 0 12px !important;
+        border: 0 !important;
+        border-radius: 4px !important;
+        background: #fff !important;
+        color: #111 !important;
+        font: inherit !important;
+        font-size: 14px !important;
+        text-align: left !important;
+        cursor: pointer !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__option:hover,
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__option:focus-visible,
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-class-select__option.is-selected {
+        background: #f3f3f3 !important;
+        outline: none !important;
       }
     `;
     document.head.append(style);
@@ -175,12 +270,14 @@
         const wrapper = radio.closest('.ant-radio-button-wrapper');
         button?.classList.toggle('ant-radio-button-checked', active);
         wrapper?.classList.toggle('ant-radio-button-wrapper-checked', active);
+        wrapper?.classList.toggle('offline-user-type-active', active);
         wrapper?.setAttribute('aria-checked', active ? 'true' : 'false');
       });
 
       wrappers.forEach((wrapper, index) => {
         const active = student ? index === 1 : index === 0;
         wrapper.classList.toggle('ant-radio-button-wrapper-checked', active);
+        wrapper.classList.toggle('offline-user-type-active', active);
       });
 
       if (student) ensureStudentFields();
@@ -196,6 +293,102 @@
     });
 
     setMode(radios[1]?.checked ? 'student' : 'parent');
+
+    const originalClassSelect = fields
+      ? [...fields.querySelectorAll('.ant-select')].find((item) =>
+          item.textContent.includes('В какой класс поступает ученик') ||
+          item.querySelector('input')?.getAttribute('aria-label')?.includes('класс')
+        ) || fields.querySelector('.ant-select')
+      : null;
+
+    if (originalClassSelect && !fields.querySelector('.offline-class-select')) {
+      const originalInput = originalClassSelect.querySelector('input');
+      const classSelect = document.createElement('div');
+      classSelect.className = 'offline-class-select';
+      classSelect.innerHTML = `
+        <button class="offline-class-select__trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span class="offline-class-select__value">В какой класс поступает ученик</span>
+          <span class="offline-class-select__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="offline-class-select__menu" role="listbox" hidden>
+          ${[5, 6, 7, 8, 9, 10, 11]
+            .map((grade) => `<button class="offline-class-select__option" type="button" role="option" data-grade="${grade} класс" aria-selected="false">${grade} класс</button>`)
+            .join('')}
+        </div>
+        <input class="offline-class-select__hidden" type="hidden" name="${originalInput?.name || 'grade'}" value="" />`;
+
+      originalClassSelect.style.display = 'none';
+      originalClassSelect.setAttribute('aria-hidden', 'true');
+      originalClassSelect.insertAdjacentElement('afterend', classSelect);
+
+      const trigger = classSelect.querySelector('.offline-class-select__trigger');
+      const value = classSelect.querySelector('.offline-class-select__value');
+      const menu = classSelect.querySelector('.offline-class-select__menu');
+      const hiddenInput = classSelect.querySelector('.offline-class-select__hidden');
+      const options = [...classSelect.querySelectorAll('.offline-class-select__option')];
+
+      const closeClassSelect = () => {
+        classSelect.classList.remove('is-open');
+        menu.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+      };
+
+      const openClassSelect = () => {
+        classSelect.classList.add('is-open');
+        menu.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+      };
+
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (menu.hidden) openClassSelect();
+        else closeClassSelect();
+      });
+
+      options.forEach((option) => {
+        option.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const grade = option.dataset.grade;
+
+          value.textContent = grade;
+          hiddenInput.value = grade;
+          classSelect.classList.add('has-value');
+
+          options.forEach((item) => {
+            const selected = item === option;
+            item.classList.toggle('is-selected', selected);
+            item.setAttribute('aria-selected', selected ? 'true' : 'false');
+          });
+
+          if (originalInput) {
+            const nativeValueSetter = Object.getOwnPropertyDescriptor(
+              window.HTMLInputElement.prototype,
+              'value'
+            )?.set;
+            if (nativeValueSetter) nativeValueSetter.call(originalInput, grade);
+            else originalInput.value = grade;
+            originalInput.dispatchEvent(new Event('input', { bubbles: true }));
+            originalInput.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+
+          closeClassSelect();
+          trigger.focus();
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!classSelect.contains(event.target)) closeClassSelect();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !menu.hidden) {
+          closeClassSelect();
+          trigger.focus();
+        }
+      });
+    }
 
     const iconEnvelope = `
       <svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true">
