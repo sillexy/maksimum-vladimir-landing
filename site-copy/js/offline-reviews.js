@@ -50,6 +50,180 @@
     consultationImage.style.objectPosition = 'right bottom';
   }
 
+  const leadRoot = document.getElementById('50f91115-b4f9-4cd8-aba9-a46e915220334');
+
+  if (leadRoot) {
+    const style = document.createElement('style');
+    style.textContent = `
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType {
+        display: inline-flex !important;
+        width: auto !important;
+        min-width: 191px !important;
+        height: 40px !important;
+        padding: 4px !important;
+        box-sizing: border-box !important;
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: #f4f4f4 !important;
+        box-shadow: none !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .sc-636b7296-1 {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0 !important;
+        width: 100% !important;
+        height: 32px !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .ant-radio-button-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 32px !important;
+        min-width: 92px !important;
+        padding: 0 16px !important;
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        color: #111 !important;
+        font-size: 14px !important;
+        line-height: 32px !important;
+        transition: background-color .18s ease, color .18s ease !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .ant-radio-button-wrapper::before,
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .sc-636b7296-2 {
+        display: none !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 #userType .ant-radio-button-wrapper-checked {
+        background: #ff7a0d !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-student-field {
+        margin-bottom: 8px !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334[data-offline-user-type="student"] .sc-4146ca2e-0,
+      #50f91115-b4f9-4cd8-aba9-a46e915220334[data-offline-user-type="student"] .sc-4146ca2e-1 {
+        height: auto !important;
+        min-height: 512px !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334[data-offline-user-type="student"] .sc-99810472-0 {
+        height: auto !important;
+        min-height: 576px !important;
+      }
+
+      #50f91115-b4f9-4cd8-aba9-a46e915220334 .offline-contact-icon {
+        display: block !important;
+        width: 25px !important;
+        height: 25px !important;
+      }
+    `;
+    document.head.append(style);
+
+    const userType = leadRoot.querySelector('#userType');
+    const fields = leadRoot.querySelector('.sc-4146ca2e-5');
+    const radios = userType ? [...userType.querySelectorAll('input[type="radio"]')] : [];
+    const wrappers = userType ? [...userType.querySelectorAll('.ant-radio-button-wrapper')] : [];
+
+    const cloneInputField = (source, id, placeholder) => {
+      if (!source) return null;
+      const clone = source.cloneNode(true);
+      clone.classList.add('offline-student-field');
+      clone.dataset.offlineStudentField = 'true';
+      const input = clone.querySelector('input');
+      if (input) {
+        input.id = id;
+        input.name = id;
+        input.value = '';
+        input.placeholder = placeholder;
+        input.removeAttribute('aria-describedby');
+      }
+      return clone;
+    };
+
+    const ensureStudentFields = () => {
+      if (!fields || fields.querySelector('[data-offline-student-field]')) return;
+      const parentName = fields.querySelector('#parentName')?.closest('.ant-form-item');
+      const parentPhone = fields.querySelector('#parentPhone')?.closest('.ant-form-item');
+      if (!parentName || !parentPhone) return;
+
+      const nameField = cloneInputField(parentName, 'studentName', 'Имя');
+      const phoneField = cloneInputField(parentPhone, 'studentPhone', 'Телефон');
+      if (nameField) fields.insertBefore(nameField, parentName);
+      if (phoneField) fields.insertBefore(phoneField, parentName);
+    };
+
+    const removeStudentFields = () => {
+      fields?.querySelectorAll('[data-offline-student-field]').forEach((item) => item.remove());
+    };
+
+    const setMode = (mode) => {
+      const student = mode === 'student';
+      leadRoot.dataset.offlineUserType = student ? 'student' : 'parent';
+
+      radios.forEach((radio, index) => {
+        const active = student ? index === 1 : index === 0;
+        radio.checked = active;
+        const button = radio.closest('.ant-radio-button');
+        const wrapper = radio.closest('.ant-radio-button-wrapper');
+        button?.classList.toggle('ant-radio-button-checked', active);
+        wrapper?.classList.toggle('ant-radio-button-wrapper-checked', active);
+        wrapper?.setAttribute('aria-checked', active ? 'true' : 'false');
+      });
+
+      wrappers.forEach((wrapper, index) => {
+        const active = student ? index === 1 : index === 0;
+        wrapper.classList.toggle('ant-radio-button-wrapper-checked', active);
+      });
+
+      if (student) ensureStudentFields();
+      else removeStudentFields();
+    };
+
+    radios.forEach((radio, index) => {
+      radio.addEventListener('change', () => setMode(index === 1 ? 'student' : 'parent'));
+    });
+
+    wrappers.forEach((wrapper, index) => {
+      wrapper.addEventListener('click', () => setMode(index === 1 ? 'student' : 'parent'));
+    });
+
+    setMode(radios[1]?.checked ? 'student' : 'parent');
+
+    const iconEnvelope = `
+      <svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true">
+        <circle cx="12.5" cy="12.5" r="12.5" fill="#ff9b50"/>
+        <rect x="5.3" y="7.4" width="14.4" height="10.4" rx="2" fill="#fff"/>
+        <path d="M6.4 9.1 12.5 14l6.1-4.9" fill="none" stroke="#ff9b50" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`;
+
+    const iconPhone = `
+      <svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true">
+        <circle cx="12.5" cy="12.5" r="12.5" fill="#ff9b50"/>
+        <path d="M8.1 6.5c.5-.4 1.2-.3 1.5.2l1.5 2.5c.3.5.2 1.1-.2 1.5l-1 .9c.8 1.7 2 2.9 3.7 3.7l.9-1c.4-.4 1-.5 1.5-.2l2.5 1.5c.5.3.6 1 .2 1.5l-1.1 1.4c-.5.6-1.2.9-2 .8-4.8-.8-8.6-4.6-9.4-9.4-.1-.8.2-1.5.8-2l1.1-1.4Z" fill="#fff"/>
+      </svg>`;
+
+    const iconTelegram = `
+      <svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true">
+        <circle cx="12.5" cy="12.5" r="12.5" fill="#29a9ea"/>
+        <path d="M19.3 6.7 16.9 18c-.2.8-.7 1-1.3.6l-3.7-2.7-1.8 1.7c-.2.2-.4.4-.7.4l.3-3.8 6.8-6.2c.3-.3-.1-.4-.5-.2l-8.4 5.3-3.6-1.1c-.8-.2-.8-.8.2-1.2l13.9-5.4c.7-.3 1.3.1 1.2 1.3Z" fill="#fff"/>
+      </svg>`;
+
+    leadRoot.querySelectorAll('.sc-66c7e2be-2 a').forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      if (href.startsWith('mailto:')) link.innerHTML = iconEnvelope;
+      else if (href.startsWith('tel:')) link.innerHTML = iconPhone;
+      else link.innerHTML = iconTelegram;
+    });
+  }
+
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
   if (!section) return;
 
