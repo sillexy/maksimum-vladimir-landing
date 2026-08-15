@@ -12,7 +12,7 @@ class ConsultationFormControlTests(unittest.TestCase):
         scope = '[id="50f91115-b4f9-4cd8-aba9-a46e915220334"]'
         self.assertIn(scope + ' .offline-user-type', self.css)
         self.assertIn(scope + ' .offline-user-type__button.is-active', self.css)
-        self.assertIn(scope + ' .offline-grade-select', self.css)
+        self.assertIn(scope + ' .offline-grade-dropdown', self.css)
 
     def test_parent_student_switch_has_target_pill_styling(self):
         self.assertIn('.offline-user-type__button.is-active', self.css)
@@ -20,16 +20,18 @@ class ConsultationFormControlTests(unittest.TestCase):
         self.assertIn('border-radius: 999px !important', self.css)
         self.assertIn('height: 40px !important', self.css)
 
-    def test_grade_select_matches_the_target_field_height_and_shape(self):
-        self.assertIn('.offline-grade-select', self.css)
-        self.assertIn('height: 48px !important', self.css)
-        self.assertIn('border-radius: 9px !important', self.css)
-        self.assertIn('appearance: none !important', self.css)
+    def test_grade_dropdown_matches_reference_visuals(self):
+        self.assertIn('.offline-grade-dropdown__trigger', self.css)
+        self.assertIn('.offline-grade-dropdown__menu', self.css)
+        self.assertIn('.offline-grade-dropdown__option.is-selected', self.css)
+        self.assertIn('box-shadow: 0 6px 18px rgba(0, 0, 0, .14)', self.css)
+        self.assertIn('border-radius: 8px !important', self.css)
 
-    def test_working_controls_are_still_created_by_the_offline_script(self):
+    def test_working_controls_are_created_by_the_offline_script(self):
         self.assertIn('offline-user-type__button is-active', self.script)
-        self.assertIn('offline-grade-select', self.script)
-        self.assertIn('<option value="11">11 класс</option>', self.script)
+        self.assertIn('offline-grade-dropdown__trigger', self.script)
+        self.assertIn('data-grade="11"', self.script)
+        self.assertNotIn('<select class="offline-grade-select"', self.script)
 
 
 if __name__ == "__main__":
