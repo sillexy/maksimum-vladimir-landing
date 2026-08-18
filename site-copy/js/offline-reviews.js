@@ -314,8 +314,10 @@
       const text = normalizedText(node);
       return text === 'Пройти тест' || text === 'Записаться';
     });
-    if (cta) {
+    if (cta && normalizedText(cta) !== 'Записаться') {
       cta.textContent = 'Записаться';
+    }
+    if (cta && !cta.hasAttribute('data-offline-consultation-cta')) {
       cta.setAttribute('data-offline-consultation-cta', 'true');
     }
 
@@ -324,9 +326,12 @@
   };
 
   updateConsultationCard();
-  const consultationCardObserver = new MutationObserver(updateConsultationCard);
-  consultationCardObserver.observe(document.documentElement, { childList: true, subtree: true });
-  window.setTimeout(() => consultationCardObserver.disconnect(), 15000);
+  const consultationCard = document.getElementById('ee34b58c-b141-491b-9775-4fb1adbfdbce');
+  if (consultationCard) {
+    const consultationCardObserver = new MutationObserver(updateConsultationCard);
+    consultationCardObserver.observe(consultationCard, { childList: true, subtree: true });
+    window.setTimeout(() => consultationCardObserver.disconnect(), 15000);
+  }
 
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
