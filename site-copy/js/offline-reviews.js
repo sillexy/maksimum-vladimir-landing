@@ -69,14 +69,99 @@
       pointer-events: auto;
     }
 
-    @media (max-width: 700px) {
+    .offline-vladimir-footer {
+      background: #151515 !important;
+      color: #fff !important;
+      width: 100%;
+    }
+
+    .offline-vladimir-footer__inner {
+      box-sizing: border-box;
+      width: min(1200px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 48px 0;
+      display: grid;
+      grid-template-columns: minmax(260px, .8fr) minmax(420px, 1.2fr);
+      gap: 56px;
+      align-items: stretch;
+    }
+
+    .offline-vladimir-footer__legal {
+      min-width: 0;
+      font-size: 16px;
+      line-height: 1.28;
+    }
+
+    .offline-vladimir-footer__company {
+      margin: 0 0 20px;
+      white-space: pre-line;
+    }
+
+    .offline-vladimir-footer__consultation-label {
+      margin: 0 0 2px;
+      font-weight: 700;
+    }
+
+    .offline-vladimir-footer__link {
+      display: block;
+      width: fit-content;
+      max-width: 100%;
+      color: #fff !important;
+      text-decoration: none;
+    }
+
+    .offline-vladimir-footer__link:hover,
+    .offline-vladimir-footer__link:focus-visible {
+      text-decoration: underline;
+    }
+
+    .offline-vladimir-footer__main-phone {
+      margin-top: 22px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .offline-vladimir-footer__privacy {
+      margin-top: 18px;
+    }
+
+    .offline-vladimir-footer__map-wrap {
+      min-width: 0;
+      min-height: 320px;
+    }
+
+    .offline-vladimir-footer__map {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      border: 0;
+      border-radius: 14px;
+      background: #222;
+    }
+
+    @media (max-width: 760px) {
       #header_container .offline-header-phone-number,
       #header_container .offline-header-location-text {
         font-size: 12px;
       }
+
+      .offline-vladimir-footer__inner {
+        width: min(100% - 32px, 1200px);
+        padding: 32px 0;
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .offline-vladimir-footer__map-wrap,
+      .offline-vladimir-footer__map {
+        min-height: 280px;
+      }
     }
   `;
   document.head.append(style);
+
+  const normalizedText = (node) => node?.textContent.replace(/\s+/g, ' ').trim() || '';
 
   const getControl = (target) => {
     if (!target) return null;
@@ -107,7 +192,6 @@
   const enhanceHeader = () => {
     const phoneControl = getControl(findPhoneTarget());
     const locationControl = getControl(findLocationTarget());
-
     if (!phoneControl || !locationControl) return false;
 
     const phoneGroup = ensureGroup(phoneControl, 'offline-header-phone-group');
@@ -145,7 +229,6 @@
 
     if (!document.querySelector('.offline-header-location-text')) {
       locationControl.classList.add('offline-header-contact-control');
-
       const locationText = document.createElement('span');
       locationText.className = 'offline-header-location-text';
       locationText.textContent = 'Владимирская область';
@@ -169,17 +252,13 @@
   const updateHeroTitle = () => {
     const expectedTitle = 'Бесплатная консультация по профориентации';
     const heading = Array.from(document.querySelectorAll('h1')).find(
-      (node) => node.textContent.replace(/\s+/g, ' ').trim() === expectedTitle
+      (node) => normalizedText(node) === expectedTitle
     );
-
     if (!heading) return false;
 
     const target = heading.querySelector('span');
-    if (target) {
-      target.innerHTML = 'Бесплатная консультация по&nbsp;профориентации во Владимире';
-    } else {
-      heading.innerHTML = 'Бесплатная консультация по&nbsp;профориентации во Владимире';
-    }
+    if (target) target.innerHTML = 'Бесплатная консультация по&nbsp;профориентации во Владимире';
+    else heading.innerHTML = 'Бесплатная консультация по&nbsp;профориентации во Владимире';
     return true;
   };
 
@@ -190,8 +269,6 @@
     heroTitleObserver.observe(document.documentElement, { childList: true, subtree: true });
     window.setTimeout(() => heroTitleObserver.disconnect(), 10000);
   }
-
-  const normalizedText = (node) => node?.textContent.replace(/\s+/g, ' ').trim() || '';
 
   const getHeaderOffset = () => {
     const header = document.querySelector('#header_container');
@@ -225,9 +302,7 @@
 
   const syncHeroOverrides = () => {
     const { primary } = getHeroCtas();
-    if (primary && normalizedText(primary) !== 'Записаться') {
-      primary.textContent = 'Записаться';
-    }
+    if (primary && normalizedText(primary) !== 'Записаться') primary.textContent = 'Записаться';
   };
 
   const handleHeroCtaClick = (event) => {
@@ -243,7 +318,6 @@
 
     const text = normalizedText(control);
     if (text !== 'Пройти тест' && text !== 'Записаться' && text !== 'Узнать больше') return;
-
     const { primary, secondary } = getHeroCtas();
 
     if (control === primary) {
@@ -262,7 +336,6 @@
 
   document.addEventListener('click', handleHeroCtaClick, true);
   syncHeroOverrides();
-
   const heroOverrideObserver = new MutationObserver(syncHeroOverrides);
   heroOverrideObserver.observe(document.documentElement, { childList: true, subtree: true });
   window.setTimeout(() => heroOverrideObserver.disconnect(), 15000);
@@ -271,14 +344,12 @@
     const oldText = 'Наши консультации уже прошли более 2 млн. учеников по всей России';
     const newText = 'Наши консультации уже прошли более 30 тыс. учеников по всей России';
     let updated = false;
-
     document.querySelectorAll('p').forEach((node) => {
       if (normalizedText(node) === oldText) {
         node.textContent = newText;
         updated = true;
       }
     });
-
     return updated;
   };
 
@@ -293,7 +364,6 @@
     const heading = Array.from(document.querySelectorAll('h1, h2, h3, p, div, span')).find(
       (node) => node.children.length === 0 && normalizedText(node) === oldText
     );
-
     if (!heading) return false;
     if (normalizedText(heading) !== newText) heading.textContent = newText;
     return true;
@@ -320,15 +390,15 @@
 
     const listItems = Array.from(card.querySelectorAll('li'));
     desiredItems.forEach((text, index) => {
-      if (listItems[index] && normalizedText(listItems[index]) !== text) {
-        listItems[index].textContent = text;
-      }
+      if (listItems[index] && normalizedText(listItems[index]) !== text) listItems[index].textContent = text;
     });
 
     const freeText = Array.from(card.querySelectorAll('p, div, span, strong, h3, h4')).find(
       (node) => node.children.length === 0 && normalizedText(node) === 'Бесплатно'
     );
-    if (freeText) freeText.textContent = 'Бесплатно до 30 августа';
+    if (freeText && normalizedText(freeText) !== 'Бесплатно до 30 августа') {
+      freeText.textContent = 'Бесплатно до 30 августа';
+    }
 
     const cta = Array.from(card.querySelectorAll('button, a')).find((node) => {
       const text = normalizedText(node);
@@ -356,7 +426,6 @@
   const updateConsultationContacts = () => {
     const leadRoot = document.getElementById('50f91115-b4f9-4cd8-aba9-a46e915220334');
     if (!leadRoot) return false;
-
     const links = Array.from(leadRoot.querySelectorAll('.sc-66c7e2be-2 a'));
     if (!links.length) return false;
 
@@ -375,22 +444,111 @@
     }
 
     if (socialLink) {
-      const iconVk = `<svg class="offline-contact-icon offline-contact-icon--vk" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#2787F5"/><path d="M6.2 8.3h2.4c.2 0 .3.1.4.3.5 1.6 1.3 3 2.3 4.1.2.2.4.3.5.3.2 0 .3-.2.3-.5V9.1c0-.4-.1-.6-.5-.7v-.1h3.6c.3 0 .5.2.5.5v2.8c0 .3.1.5.3.5s.4-.2.6-.4c1-1.1 1.7-2.4 2.2-3.1.1-.2.2-.3.4-.3h2.5c.4 0 .5.2.4.5-.2.8-1.7 3-2.9 4.3-.2.3-.3.4 0 .8.3.3 1.2 1.2 1.8 2 .5.6.9 1.2 1.1 1.6.2.3 0 .6-.4.6h-2.7c-.4 0-.6-.2-.8-.5-.5-.8-1.1-1.5-1.8-2.2-.3-.3-.5-.4-.7-.4-.3 0-.4.2-.4.6v1.9c0 .4-.1.6-.5.6h-1.3c-2.3 0-4.8-1.4-6.7-4.1-1.5-2.2-2.5-4.7-2.5-5 0-.2.1-.3.4-.3Z" fill="#fff"/></svg>`;
       socialLink.href = 'https://vk.ru/maximumvld';
       socialLink.target = '_blank';
       socialLink.rel = 'noopener noreferrer';
       socialLink.setAttribute('aria-label', 'ВКонтакте Maximum Владимир');
-      socialLink.innerHTML = iconVk;
+      socialLink.innerHTML = '<svg class="offline-contact-icon offline-contact-icon--vk" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#2787F5"/><text x="12.5" y="16.5" text-anchor="middle" font-size="10" font-family="Arial,sans-serif" font-weight="700" fill="#fff">VK</text></svg>';
     }
 
     return Boolean(phoneLink && socialLink && !leadRoot.querySelector('.sc-66c7e2be-2 a[href^="mailto:"]'));
   };
+
+  const findFooter = () => {
+    const semanticFooter = document.querySelector('footer');
+    if (semanticFooter) return semanticFooter;
+
+    const legalLeaf = Array.from(document.querySelectorAll('body *')).find(
+      (node) => node.children.length === 0 && normalizedText(node).includes('ООО "Максимум Образование"')
+    );
+    if (!legalLeaf) return null;
+
+    let current = legalLeaf;
+    while (current && current !== document.body) {
+      const text = normalizedText(current);
+      if (text.includes('Курсы') && text.includes('Бесплатно') && text.includes('О нас') && text.includes('Контакты')) {
+        return current;
+      }
+      current = current.parentElement;
+    }
+    return null;
+  };
+
+  const renderVladimirFooter = () => {
+    const footer = findFooter();
+    if (!footer) return false;
+    if (footer.dataset.offlineVladimirFooter === 'ready') return true;
+
+    const privacySource = Array.from(footer.querySelectorAll('a')).find(
+      (link) => normalizedText(link) === 'Политика обработки персональных данных'
+    );
+    const privacyHref = privacySource?.getAttribute('href') || '/privacy-policy';
+
+    const footerInner = document.createElement('div');
+    footerInner.className = 'offline-vladimir-footer__inner';
+
+    const legal = document.createElement('div');
+    legal.className = 'offline-vladimir-footer__legal';
+
+    const company = document.createElement('p');
+    company.className = 'offline-vladimir-footer__company';
+    company.textContent = 'ООО "Максимум Образование".\nПрограмма для ЭВМ\n"Платформа для организации дистанционного высокоэффективного обучения групп учеников большой численности" (Свидетельство № 2023666710 от 03.08.2023)';
+
+    const consultationLabel = document.createElement('p');
+    consultationLabel.className = 'offline-vladimir-footer__consultation-label';
+    consultationLabel.textContent = 'Консультация:';
+
+    const oldPhone = document.createElement('a');
+    oldPhone.className = 'offline-vladimir-footer__link';
+    oldPhone.href = 'tel:88007072562';
+    oldPhone.textContent = '8 (800) 707-25-62';
+
+    const mainPhone = document.createElement('a');
+    mainPhone.className = 'offline-vladimir-footer__link offline-vladimir-footer__main-phone';
+    mainPhone.href = 'tel:+79209494007';
+    mainPhone.textContent = '+79209494007';
+    mainPhone.setAttribute('aria-label', 'Позвонить +79209494007');
+
+    const privacy = document.createElement('a');
+    privacy.className = 'offline-vladimir-footer__link offline-vladimir-footer__privacy';
+    privacy.href = privacyHref;
+    privacy.textContent = 'Политика обработки персональных данных';
+
+    legal.append(company, consultationLabel, oldPhone, mainPhone, privacy);
+
+    const mapWrap = document.createElement('div');
+    mapWrap.className = 'offline-vladimir-footer__map-wrap';
+
+    const map = document.createElement('iframe');
+    map.className = 'offline-vladimir-footer__map';
+    map.src = 'https://www.openstreetmap.org/export/embed.html?bbox=40.329%2C56.082%2C40.485%2C56.174&layer=mapnik&marker=56.129057%2C40.406635';
+    map.title = 'Карта: центр города Владимир';
+    map.loading = 'lazy';
+    map.setAttribute('allowfullscreen', '');
+    map.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+    mapWrap.append(map);
+
+    footerInner.append(legal, mapWrap);
+    footer.replaceChildren(footerInner);
+    footer.className = 'offline-vladimir-footer';
+    footer.dataset.offlineVladimirFooter = 'ready';
+    return true;
+  };
+
+  renderVladimirFooter();
+  const footerObserver = new MutationObserver(() => {
+    const footer = findFooter();
+    if (!footer || footer.dataset.offlineVladimirFooter !== 'ready') renderVladimirFooter();
+  });
+  footerObserver.observe(document.documentElement, { childList: true, subtree: true });
+  window.setTimeout(() => footerObserver.disconnect(), 15000);
 
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
   baseScript.defer = true;
   baseScript.addEventListener('load', () => {
     updateConsultationContacts();
+    renderVladimirFooter();
   });
   document.head.append(baseScript);
 })();
