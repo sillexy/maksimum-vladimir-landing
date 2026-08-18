@@ -1,3 +1,10 @@
+/* Header utilities: keep only geolocation. */
+#header_container [data-qa="headerAccessibilityEye"],
+#header_container [data-qa="headerCartButton"],
+#header_container [data-qa="headerLoginButton"] {
+  display: none !important;
+}
+
 /* Offline layout correction: the embedded benefits document is 597px high. */
 html body,
 html body *,
@@ -297,7 +304,6 @@ header ul.sc-af66aef5-0 > li {
 .offline-advantages__copy--quality {
   padding: 26px 24px 0;
 }
-
 .offline-advantages__copy--experts {
   width: 48%;
   padding: 25px 0 0 24px;
