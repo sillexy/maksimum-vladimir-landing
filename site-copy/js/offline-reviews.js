@@ -191,6 +191,68 @@
     window.setTimeout(() => heroTitleObserver.disconnect(), 10000);
   }
 
+  const normalizedText = (node) => node?.textContent.replace(/\s+/g, ' ').trim() || '';
+
+  const findByText = (selector, text) =>
+    Array.from(document.querySelectorAll(selector)).find((node) => normalizedText(node) === text);
+
+  const scrollToSection = (headingText) => {
+    const heading = findByText('h1, h2, h3, h4, p, strong', headingText);
+    if (!heading) return false;
+    const target = heading.closest('section, [id]') || heading;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return true;
+  };
+
+  const setupHeroCtas = () => {
+    const heroHeading = Array.from(document.querySelectorAll('h1')).find((node) =>
+      normalizedText(node).startsWith('Бесплатная консультация по профориентации')
+    );
+    if (!heroHeading) return false;
+
+    const hero = heroHeading.closest('section, [id], div');
+    if (!hero) return false;
+
+    const buttons = Array.from(hero.querySelectorAll('button, a')).filter((node) => {
+      const text = normalizedText(node);
+      return text === 'Пройти тест' || text === 'Узнать больше' || text === 'Записаться';
+    });
+
+    const primary = buttons.find((node) => normalizedText(node) === 'Пройти тест' || normalizedText(node) === 'Записаться');
+    const secondary = buttons.find((node) => normalizedText(node) === 'Узнать больше');
+
+    if (!primary || !secondary) return false;
+
+    if (!primary.dataset.offlineHeroCtaBound) {
+      primary.dataset.offlineHeroCtaBound = 'true';
+      primary.textContent = 'Записаться';
+      primary.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollToSection('Записаться на консультацию');
+      });
+    }
+
+    if (!secondary.dataset.offlineHeroCtaBound) {
+      secondary.dataset.offlineHeroCtaBound = 'true';
+      secondary.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        scrollToSection('Консультация по профориентации');
+      });
+    }
+
+    return true;
+  };
+
+  if (!setupHeroCtas()) {
+    const heroCtaObserver = new MutationObserver(() => {
+      if (setupHeroCtas()) heroCtaObserver.disconnect();
+    });
+    heroCtaObserver.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(() => heroCtaObserver.disconnect(), 10000);
+  }
+
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
   baseScript.defer = true;
