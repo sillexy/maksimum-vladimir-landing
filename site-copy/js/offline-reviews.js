@@ -260,6 +260,26 @@
   heroOverrideObserver.observe(document.documentElement, { childList: true, subtree: true });
   window.setTimeout(() => heroOverrideObserver.disconnect(), 15000);
 
+  const updateConsultationCount = () => {
+    const oldText = 'Наши консультации уже прошли более 2 млн. учеников по всей России';
+    const newText = 'Наши консультации уже прошли более 30 тыс. учеников по всей России';
+    let updated = false;
+
+    document.querySelectorAll('p').forEach((node) => {
+      if (normalizedText(node) === oldText) {
+        node.textContent = newText;
+        updated = true;
+      }
+    });
+
+    return updated;
+  };
+
+  updateConsultationCount();
+  const consultationCountObserver = new MutationObserver(updateConsultationCount);
+  consultationCountObserver.observe(document.documentElement, { childList: true, subtree: true });
+  window.setTimeout(() => consultationCountObserver.disconnect(), 15000);
+
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
   baseScript.defer = true;
