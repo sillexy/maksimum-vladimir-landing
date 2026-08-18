@@ -353,8 +353,44 @@
     window.setTimeout(() => consultationCardObserver.disconnect(), 15000);
   }
 
+  const updateConsultationContacts = () => {
+    const leadRoot = document.getElementById('50f91115-b4f9-4cd8-aba9-a46e915220334');
+    if (!leadRoot) return false;
+
+    const links = Array.from(leadRoot.querySelectorAll('.sc-66c7e2be-2 a'));
+    if (!links.length) return false;
+
+    const mailLink = links.find((link) => (link.getAttribute('href') || '').startsWith('mailto:'));
+    const phoneLink = links.find((link) => (link.getAttribute('href') || '').startsWith('tel:'));
+    const socialLink = links.find((link) => {
+      const href = link.getAttribute('href') || '';
+      return !href.startsWith('mailto:') && !href.startsWith('tel:');
+    });
+
+    if (mailLink) mailLink.remove();
+
+    if (phoneLink) {
+      phoneLink.href = 'tel:+79209494007';
+      phoneLink.setAttribute('aria-label', 'Позвонить +79209494007');
+    }
+
+    if (socialLink) {
+      const iconVk = `<svg class="offline-contact-icon offline-contact-icon--vk" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#2787F5"/><path d="M6.2 8.3h2.4c.2 0 .3.1.4.3.5 1.6 1.3 3 2.3 4.1.2.2.4.3.5.3.2 0 .3-.2.3-.5V9.1c0-.4-.1-.6-.5-.7v-.1h3.6c.3 0 .5.2.5.5v2.8c0 .3.1.5.3.5s.4-.2.6-.4c1-1.1 1.7-2.4 2.2-3.1.1-.2.2-.3.4-.3h2.5c.4 0 .5.2.4.5-.2.8-1.7 3-2.9 4.3-.2.3-.3.4 0 .8.3.3 1.2 1.2 1.8 2 .5.6.9 1.2 1.1 1.6.2.3 0 .6-.4.6h-2.7c-.4 0-.6-.2-.8-.5-.5-.8-1.1-1.5-1.8-2.2-.3-.3-.5-.4-.7-.4-.3 0-.4.2-.4.6v1.9c0 .4-.1.6-.5.6h-1.3c-2.3 0-4.8-1.4-6.7-4.1-1.5-2.2-2.5-4.7-2.5-5 0-.2.1-.3.4-.3Z" fill="#fff"/></svg>`;
+      socialLink.href = 'https://vk.ru/maximumvld';
+      socialLink.target = '_blank';
+      socialLink.rel = 'noopener noreferrer';
+      socialLink.setAttribute('aria-label', 'ВКонтакте Maximum Владимир');
+      socialLink.innerHTML = iconVk;
+    }
+
+    return Boolean(phoneLink && socialLink && !leadRoot.querySelector('.sc-66c7e2be-2 a[href^="mailto:"]'));
+  };
+
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
   baseScript.defer = true;
+  baseScript.addEventListener('load', () => {
+    updateConsultationContacts();
+  });
   document.head.append(baseScript);
 })();
