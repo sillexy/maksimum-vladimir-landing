@@ -287,6 +287,26 @@
   consultationCountObserver.observe(document.documentElement, { childList: true, subtree: true });
   window.setTimeout(() => consultationCountObserver.disconnect(), 15000);
 
+  const updateReachHeadline = () => {
+    const oldText = 'Более 2 000 000 школьников прошли нашу профориентацию';
+    const newText = 'Более 30 000 школьников прошли нашу профориентацию';
+    const heading = Array.from(document.querySelectorAll('h1, h2, h3, p, div, span')).find(
+      (node) => node.children.length === 0 && normalizedText(node) === oldText
+    );
+
+    if (!heading) return false;
+    if (normalizedText(heading) !== newText) heading.textContent = newText;
+    return true;
+  };
+
+  if (!updateReachHeadline()) {
+    const reachHeadlineObserver = new MutationObserver(() => {
+      if (updateReachHeadline()) reachHeadlineObserver.disconnect();
+    });
+    reachHeadlineObserver.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(() => reachHeadlineObserver.disconnect(), 10000);
+  }
+
   const updateConsultationCard = () => {
     const card = document.getElementById('ee34b58c-b141-491b-9775-4fb1adbfdbce');
     if (!card) return false;
