@@ -234,6 +234,13 @@
     const control = event.target.closest('button, a');
     if (!control) return;
 
+    if (control.matches('[data-offline-consultation-cta]')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      smoothScrollTo(getConsultationFormTarget());
+      return;
+    }
+
     const text = normalizedText(control);
     if (text !== 'Пройти тест' && text !== 'Записаться' && text !== 'Узнать больше') return;
 
@@ -279,6 +286,47 @@
   const consultationCountObserver = new MutationObserver(updateConsultationCount);
   consultationCountObserver.observe(document.documentElement, { childList: true, subtree: true });
   window.setTimeout(() => consultationCountObserver.disconnect(), 15000);
+
+  const updateConsultationCard = () => {
+    const card = document.getElementById('ee34b58c-b141-491b-9775-4fb1adbfdbce');
+    if (!card) return false;
+
+    const desiredItems = [
+      'Вам придёт ссылка на проф. тест',
+      'Вы в спокойной обстановке ответите на вопросы',
+      'Мы свяжемся с вами и подберем удобное время для бесплатной консультации',
+      'Эксперт по выбору профессии проведет детальный разбор с персональными рекомендациями по предметам, учебным заведениям и стратегии поступления'
+    ];
+
+    const listItems = Array.from(card.querySelectorAll('li'));
+    desiredItems.forEach((text, index) => {
+      if (listItems[index] && normalizedText(listItems[index]) !== text) {
+        listItems[index].textContent = text;
+      }
+    });
+
+    const freeText = Array.from(card.querySelectorAll('p, div, span, strong, h3, h4')).find(
+      (node) => node.children.length === 0 && normalizedText(node) === 'Бесплатно'
+    );
+    if (freeText) freeText.textContent = 'Бесплатно до 30 августа';
+
+    const cta = Array.from(card.querySelectorAll('button, a')).find((node) => {
+      const text = normalizedText(node);
+      return text === 'Пройти тест' || text === 'Записаться';
+    });
+    if (cta) {
+      cta.textContent = 'Записаться';
+      cta.setAttribute('data-offline-consultation-cta', 'true');
+    }
+
+    return desiredItems.every((text, index) => normalizedText(listItems[index]) === text) &&
+      Boolean(cta) && normalizedText(cta) === 'Записаться';
+  };
+
+  updateConsultationCard();
+  const consultationCardObserver = new MutationObserver(updateConsultationCard);
+  consultationCardObserver.observe(document.documentElement, { childList: true, subtree: true });
+  window.setTimeout(() => consultationCardObserver.disconnect(), 15000);
 
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
