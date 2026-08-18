@@ -3,7 +3,7 @@ import unittest
 
 
 class HeaderContactRevealTests(unittest.TestCase):
-    def test_phone_reveals_clickable_number_and_location_has_region_text(self):
+    def test_phone_reveals_clickable_number_and_location_has_compact_spacing(self):
         root = Path(__file__).parents[1]
         script = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
 
@@ -18,7 +18,9 @@ class HeaderContactRevealTests(unittest.TestCase):
         self.assertIn('offline-header-phone-number.is-visible', script)
         self.assertIn('transition:', script)
         self.assertIn('offline-header-location-text', script)
-        self.assertIn('margin-left: 4px', script)
+        self.assertIn('offline-header-contact-group', script)
+        self.assertIn('offline-header-contact-row', script)
+        self.assertIn('gap: 3px', script)
         self.assertIn('column-gap: 8px', script)
 
 
