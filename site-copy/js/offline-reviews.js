@@ -166,6 +166,31 @@
     window.setTimeout(() => observer.disconnect(), 10000);
   }
 
+  const updateHeroTitle = () => {
+    const expectedTitle = 'Бесплатная консультация по профориентации';
+    const heading = Array.from(document.querySelectorAll('h1')).find(
+      (node) => node.textContent.replace(/\s+/g, ' ').trim() === expectedTitle
+    );
+
+    if (!heading) return false;
+
+    const target = heading.querySelector('span');
+    if (target) {
+      target.innerHTML = 'Бесплатная консультация по&nbsp;профориентации во Владимире';
+    } else {
+      heading.innerHTML = 'Бесплатная консультация по&nbsp;профориентации во Владимире';
+    }
+    return true;
+  };
+
+  if (!updateHeroTitle()) {
+    const heroTitleObserver = new MutationObserver(() => {
+      if (updateHeroTitle()) heroTitleObserver.disconnect();
+    });
+    heroTitleObserver.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(() => heroTitleObserver.disconnect(), 10000);
+  }
+
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
   baseScript.defer = true;
