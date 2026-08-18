@@ -7,6 +7,12 @@
       white-space: nowrap !important;
     }
 
+    #header_container .offline-header-contact-control,
+    #header_container .offline-header-phone-number,
+    #header_container .offline-header-location-text {
+      column-gap: 8px;
+    }
+
     #header_container .offline-header-phone-number,
     #header_container .offline-header-location-text {
       display: inline-block;
@@ -16,6 +22,7 @@
       font: inherit;
       font-size: 14px;
       line-height: 1.2;
+      text-decoration: none;
     }
 
     #header_container .offline-header-phone-number {
@@ -23,21 +30,21 @@
       margin-left: 0;
       overflow: hidden;
       opacity: 0;
-      transform: translateX(-6px);
+      transform: translateX(-4px);
       pointer-events: none;
-      transition: max-width 320ms ease, margin-left 320ms ease, opacity 220ms ease, transform 320ms ease;
+      transition: max-width 280ms ease, margin-left 280ms ease, opacity 200ms ease, transform 280ms ease;
     }
 
     #header_container .offline-header-phone-number.is-visible {
-      max-width: 132px;
-      margin-left: 8px;
+      max-width: 120px;
+      margin-left: 4px;
       opacity: 1;
       transform: translateX(0);
       pointer-events: auto;
     }
 
     #header_container .offline-header-location-text {
-      margin-left: 8px;
+      margin-left: 4px;
     }
 
     @media (max-width: 700px) {
@@ -67,14 +74,16 @@
 
   const enhanceHeader = () => {
     const phoneControl = getControl(findPhoneTarget());
-    if (phoneControl && !phoneControl.querySelector('.offline-header-phone-number')) {
+    if (phoneControl && !document.querySelector('.offline-header-phone-number')) {
       phoneControl.classList.add('offline-header-contact-control');
       phoneControl.setAttribute('aria-expanded', 'false');
 
-      const phoneNumber = document.createElement('span');
+      const phoneNumber = document.createElement('a');
       phoneNumber.className = 'offline-header-phone-number';
+      phoneNumber.href = 'tel:+79209494007';
       phoneNumber.textContent = '+79209494007';
-      phoneControl.append(phoneNumber);
+      phoneNumber.setAttribute('aria-label', 'Позвонить +79209494007');
+      phoneControl.insertAdjacentElement('afterend', phoneNumber);
 
       phoneControl.addEventListener('click', (event) => {
         event.preventDefault();
@@ -84,13 +93,13 @@
     }
 
     const locationControl = getControl(findLocationTarget());
-    if (locationControl && !locationControl.querySelector('.offline-header-location-text')) {
+    if (locationControl && !document.querySelector('.offline-header-location-text')) {
       locationControl.classList.add('offline-header-contact-control');
 
       const locationText = document.createElement('span');
       locationText.className = 'offline-header-location-text';
       locationText.textContent = 'Владимирская область';
-      locationControl.append(locationText);
+      locationControl.insertAdjacentElement('afterend', locationText);
     }
 
     return Boolean(
