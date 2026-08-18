@@ -204,54 +204,52 @@
     return true;
   };
 
-  const setupHeroCtas = () => {
-    const heroHeading = Array.from(document.querySelectorAll('h1')).find((node) =>
-      normalizedText(node).startsWith('Бесплатная консультация по профориентации')
-    );
-    if (!heroHeading) return false;
-
-    const hero = heroHeading.closest('section, [id], div');
-    if (!hero) return false;
-
-    const buttons = Array.from(hero.querySelectorAll('button, a')).filter((node) => {
+  const getHeroCtas = () => {
+    const all = Array.from(document.querySelectorAll('button, a'));
+    const primary = all.find((node) => {
       const text = normalizedText(node);
-      return text === 'Пройти тест' || text === 'Узнать больше' || text === 'Записаться';
+      return text === 'Пройти тест' || text === 'Записаться';
     });
-
-    const primary = buttons.find((node) => normalizedText(node) === 'Пройти тест' || normalizedText(node) === 'Записаться');
-    const secondary = buttons.find((node) => normalizedText(node) === 'Узнать больше');
-
-    if (!primary || !secondary) return false;
-
-    if (!primary.dataset.offlineHeroCtaBound) {
-      primary.dataset.offlineHeroCtaBound = 'true';
-      primary.textContent = 'Записаться';
-      primary.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        scrollToSection('Записаться на консультацию');
-      });
-    }
-
-    if (!secondary.dataset.offlineHeroCtaBound) {
-      secondary.dataset.offlineHeroCtaBound = 'true';
-      secondary.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        scrollToSection('Консультация по профориентации');
-      });
-    }
-
-    return true;
+    const secondary = all.find((node) => normalizedText(node) === 'Узнать больше');
+    return { primary, secondary };
   };
 
-  if (!setupHeroCtas()) {
-    const heroCtaObserver = new MutationObserver(() => {
-      if (setupHeroCtas()) heroCtaObserver.disconnect();
-    });
-    heroCtaObserver.observe(document.documentElement, { childList: true, subtree: true });
-    window.setTimeout(() => heroCtaObserver.disconnect(), 10000);
-  }
+  const syncHeroOverrides = () => {
+    const { primary } = getHeroCtas();
+    if (primary && normalizedText(primary) !== 'Записаться') {
+      primary.textContent = 'Записаться';
+    }
+  };
+
+  const handleHeroCtaClick = (event) => {
+    const control = event.target.closest('button, a');
+    if (!control) return;
+
+    const text = normalizedText(control);
+    if (text !== 'Пройти тест' && text !== 'Записаться' && text !== 'Узнать больше') return;
+
+    const { primary, secondary } = getHeroCtas();
+
+    if (control === primary) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      scrollToSection('Записаться на консультацию');
+      return;
+    }
+
+    if (control === secondary) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      scrollToSection('Консультация по профориентации');
+    }
+  };
+
+  document.addEventListener('click', handleHeroCtaClick, true);
+  syncHeroOverrides();
+
+  const heroOverrideObserver = new MutationObserver(syncHeroOverrides);
+  heroOverrideObserver.observe(document.documentElement, { childList: true, subtree: true });
+  window.setTimeout(() => heroOverrideObserver.disconnect(), 15000);
 
   const baseScript = document.createElement('script');
   baseScript.src = 'js/offline-reviews-base.js';
