@@ -14,19 +14,21 @@ class VladimirFooterTests(unittest.TestCase):
         self.assertIn("href = 'tel:+79209494007'", script)
         self.assertIn('+79209494007', script)
         self.assertIn('Политика обработки персональных данных', script)
-        self.assertIn('images/privacy-policy-f96c444ede.html', script)
+        self.assertIn("privacySource?.getAttribute('href') || '/privacy-policy'", script)
         self.assertIn('openstreetmap.org/export/embed.html', script)
         self.assertIn('Владимир', script)
         self.assertIn('footer.replaceChildren(footerInner)', script)
         self.assertIn('offline-vladimir-footer__map', script)
         self.assertIn('@media (max-width: 760px)', script)
 
-    def test_old_footer_columns_are_not_recreated(self):
+    def test_old_footer_columns_are_physically_removed(self):
         root = Path(__file__).parents[1]
         script = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
 
+        self.assertIn('footer.replaceChildren(footerInner)', script)
         self.assertNotIn("footerInner.innerHTML", script)
-        self.assertNotIn("display: none", script[script.find('offline-vladimir-footer'):])
+        footer_css = script[script.find('.offline-vladimir-footer'):script.find('const getControl')]
+        self.assertNotIn('display: none', footer_css)
 
 
 if __name__ == "__main__":
