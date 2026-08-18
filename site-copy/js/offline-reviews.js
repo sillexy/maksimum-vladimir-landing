@@ -1,22 +1,32 @@
 (() => {
   const style = document.createElement('style');
   style.textContent = `
+    #header_container .offline-header-contact-row {
+      display: inline-flex !important;
+      align-items: center !important;
+      column-gap: 8px !important;
+      white-space: nowrap !important;
+    }
+
+    #header_container .offline-header-contact-group {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 3px !important;
+      white-space: nowrap !important;
+    }
+
     #header_container .offline-header-contact-control {
       display: inline-flex !important;
       align-items: center !important;
       white-space: nowrap !important;
-    }
-
-    #header_container .offline-header-contact-control,
-    #header_container .offline-header-phone-number,
-    #header_container .offline-header-location-text {
-      column-gap: 8px;
+      margin: 0 !important;
     }
 
     #header_container .offline-header-phone-number,
     #header_container .offline-header-location-text {
       display: inline-block;
       flex: 0 0 auto;
+      margin: 0 !important;
       white-space: nowrap;
       color: #111;
       font: inherit;
@@ -27,24 +37,18 @@
 
     #header_container .offline-header-phone-number {
       max-width: 0;
-      margin-left: 0;
       overflow: hidden;
       opacity: 0;
-      transform: translateX(-4px);
+      transform: translateX(-3px);
       pointer-events: none;
-      transition: max-width 280ms ease, margin-left 280ms ease, opacity 200ms ease, transform 280ms ease;
+      transition: max-width 260ms ease, opacity 190ms ease, transform 260ms ease;
     }
 
     #header_container .offline-header-phone-number.is-visible {
-      max-width: 120px;
-      margin-left: 4px;
+      max-width: 116px;
       opacity: 1;
       transform: translateX(0);
       pointer-events: auto;
-    }
-
-    #header_container .offline-header-location-text {
-      margin-left: 4px;
     }
 
     @media (max-width: 700px) {
@@ -72,9 +76,38 @@
       '[data-qa="headerLocationButton"], [data-qa="headerLocation"]'
     );
 
+  const ensureGroup = (control, groupClass) => {
+    if (!control) return null;
+    if (control.parentElement?.classList.contains(groupClass)) return control.parentElement;
+    const group = document.createElement('span');
+    group.className = `offline-header-contact-group ${groupClass}`;
+    control.parentNode.insertBefore(group, control);
+    group.append(control);
+    return group;
+  };
+
   const enhanceHeader = () => {
     const phoneControl = getControl(findPhoneTarget());
-    if (phoneControl && !document.querySelector('.offline-header-phone-number')) {
+    const locationControl = getControl(findLocationTarget());
+
+    if (!phoneControl || !locationControl) return false;
+
+    const phoneGroup = ensureGroup(phoneControl, 'offline-header-phone-group');
+    const locationGroup = ensureGroup(locationControl, 'offline-header-location-group');
+
+    if (phoneGroup && locationGroup) {
+      let row = phoneGroup.parentElement;
+      if (!row?.classList.contains('offline-header-contact-row')) {
+        row = document.createElement('span');
+        row.className = 'offline-header-contact-row';
+        phoneGroup.parentNode.insertBefore(row, phoneGroup);
+        row.append(phoneGroup, locationGroup);
+      } else if (locationGroup.parentElement !== row) {
+        row.append(locationGroup);
+      }
+    }
+
+    if (!document.querySelector('.offline-header-phone-number')) {
       phoneControl.classList.add('offline-header-contact-control');
       phoneControl.setAttribute('aria-expanded', 'false');
 
@@ -83,7 +116,7 @@
       phoneNumber.href = 'tel:+79209494007';
       phoneNumber.textContent = '+79209494007';
       phoneNumber.setAttribute('aria-label', 'Позвонить +79209494007');
-      phoneControl.insertAdjacentElement('afterend', phoneNumber);
+      phoneGroup.append(phoneNumber);
 
       phoneControl.addEventListener('click', (event) => {
         event.preventDefault();
@@ -92,14 +125,13 @@
       });
     }
 
-    const locationControl = getControl(findLocationTarget());
-    if (locationControl && !document.querySelector('.offline-header-location-text')) {
+    if (!document.querySelector('.offline-header-location-text')) {
       locationControl.classList.add('offline-header-contact-control');
 
       const locationText = document.createElement('span');
       locationText.className = 'offline-header-location-text';
       locationText.textContent = 'Владимирская область';
-      locationControl.insertAdjacentElement('afterend', locationText);
+      locationGroup.append(locationText);
     }
 
     return Boolean(
