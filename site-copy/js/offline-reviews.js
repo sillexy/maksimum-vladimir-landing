@@ -193,16 +193,25 @@
 
   const normalizedText = (node) => node?.textContent.replace(/\s+/g, ' ').trim() || '';
 
-  const findByText = (selector, text) =>
-    Array.from(document.querySelectorAll(selector)).find((node) => normalizedText(node) === text);
+  const getHeaderOffset = () => {
+    const header = document.querySelector('#header_container');
+    return (header ? header.getBoundingClientRect().height : 0) + 16;
+  };
 
-  const scrollToSection = (headingText) => {
-    const heading = findByText('h1, h2, h3, h4, p, strong', headingText);
-    if (!heading) return false;
-    const target = heading.closest('section, [id]') || heading;
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const smoothScrollTo = (target) => {
+    if (!target) return false;
+    const top = window.scrollY + target.getBoundingClientRect().top - getHeaderOffset();
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: 'smooth'
+    });
     return true;
   };
+
+  const getConsultationFormTarget = () =>
+    document.querySelector('[id^="50f91115-b4f9-4cd8-aba9-a46e91522033"]');
+
+  const getConsultationCardTarget = () => document.getElementById('1');
 
   const getHeroCtas = () => {
     const all = Array.from(document.querySelectorAll('button, a'));
@@ -233,14 +242,14 @@
     if (control === primary) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      scrollToSection('Записаться на консультацию');
+      smoothScrollTo(getConsultationFormTarget());
       return;
     }
 
     if (control === secondary) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      scrollToSection('Консультация по профориентации');
+      smoothScrollTo(getConsultationCardTarget());
     }
   };
 
