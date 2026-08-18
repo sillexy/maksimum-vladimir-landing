@@ -4,7 +4,7 @@
     #header_container .offline-header-contact-row {
       display: inline-flex !important;
       align-items: center !important;
-      column-gap: 8px !important;
+      column-gap: 3px !important;
       white-space: nowrap !important;
     }
 
