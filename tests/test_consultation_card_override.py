@@ -3,7 +3,7 @@ import unittest
 
 
 class ConsultationCardOverrideTests(unittest.TestCase):
-    def test_consultation_card_copy_and_cta_are_overridden(self):
+    def test_consultation_card_copy_and_cta_are_overridden_without_mutation_loop(self):
         root = Path(__file__).parents[1]
         script = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
 
@@ -15,6 +15,10 @@ class ConsultationCardOverrideTests(unittest.TestCase):
         self.assertIn("Бесплатно до 30 августа", script)
         self.assertIn("data-offline-consultation-cta", script)
         self.assertIn("smoothScrollTo(getConsultationFormTarget())", script)
+        self.assertIn("if (cta && normalizedText(cta) !== 'Записаться')", script)
+        self.assertIn("if (cta && !cta.hasAttribute('data-offline-consultation-cta'))", script)
+        self.assertIn("consultationCardObserver.observe(consultationCard, { childList: true, subtree: true })", script)
+        self.assertNotIn("consultationCardObserver.observe(document.documentElement", script)
 
 
 if __name__ == "__main__":
