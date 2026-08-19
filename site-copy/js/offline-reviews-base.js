@@ -348,15 +348,11 @@
       }
     });
 
-    const contactBlocks = Array.from(leadRoot.querySelectorAll('.sc-66c7e2be-0'));
-    const contactMount = contactBlocks.find((block) =>
-      block.textContent.includes('Как еще с нами можно связаться')
+    const contactBlocks = Array.from(leadRoot.querySelectorAll('.sc-66c7e2be-0')).filter(
+      (block) => block.textContent.includes('Как еще с нами можно связаться')
     );
-    contactBlocks.forEach((block) => {
-      if (block !== contactMount) block.remove();
-    });
 
-    if (contactMount) {
+    contactBlocks.forEach((contactMount) => {
       contactMount.classList.add('offline-consultation-contacts');
       contactMount.replaceChildren();
 
@@ -375,7 +371,7 @@
         </a>`;
 
       contactMount.append(title, links);
-    }
+    });
   }
 
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
