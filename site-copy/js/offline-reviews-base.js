@@ -298,15 +298,8 @@
       }
     });
 
-    const iconEnvelope = `<svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#ff9b50"/><rect x="5.3" y="7.4" width="14.4" height="10.4" rx="2" fill="#fff"/><path d="M6.4 9.1 12.5 14l6.1-4.9" fill="none" stroke="#ff9b50" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    const iconPhone = `<svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#ff9b50"/><path d="M8.1 6.5c.5-.4 1.2-.3 1.5.2l1.5 2.5c.3.5.2 1.1-.2 1.5l-1 .9c.8 1.7 2 2.9 3.7 3.7l.9-1c.4-.4 1-.5 1.5-.2l2.5 1.5c.5.3.6 1 .2 1.5l-1.1 1.4c-.5.6-1.2.9-2 .8-4.8-.8-8.6-4.6-9.4-9.4-.1-.8.2-1.5.8-2l1.1-1.4Z" fill="#fff"/></svg>`;
-    const iconTelegram = `<svg class="offline-contact-icon" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#29a9ea"/><path d="M19.3 6.7 16.9 18c-.2.8-.7 1-1.3.6l-3.7-2.7-1.8 1.7c-.2.2-.4.4-.7.4l.3-3.8 6.8-6.2c.3-.3-.1-.4-.5-.2l-8.4 5.3-3.6-1.1c-.8-.2-.8-.8.2-1.2l13.9-5.4c.7-.3 1.3.1 1.2 1.3Z" fill="#fff"/></svg>`;
-    leadRoot.querySelectorAll('.sc-66c7e2be-2 a').forEach((link) => {
-      const href = link.getAttribute('href') || '';
-      if (href.startsWith('mailto:')) link.innerHTML = iconEnvelope;
-      else if (href.startsWith('tel:')) link.innerHTML = iconPhone;
-      else link.innerHTML = iconTelegram;
-    });
+    const contactLinksRow = leadRoot.querySelector('.sc-66c7e2be-2');
+    contactLinksRow?.remove();
   }
 
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
