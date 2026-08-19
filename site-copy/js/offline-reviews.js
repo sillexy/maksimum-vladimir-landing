@@ -156,24 +156,24 @@
     @media (max-width: 600px) {
       #header_container [data-offline-header-logo-home] {
         flex: 0 0 auto !important;
-        max-width: 132px !important;
+        max-width: 116px !important;
       }
 
       #header_container [data-offline-header-logo-home] img,
       #header_container img[data-offline-header-logo-home] {
         display: block !important;
-        width: 132px !important;
-        height: 34px !important;
-        max-width: 132px !important;
-        max-height: 34px !important;
+        width: 116px !important;
+        height: 30px !important;
+        max-width: 116px !important;
+        max-height: 30px !important;
         object-fit: contain !important;
         object-position: left center !important;
       }
 
       #header_container .offline-header-contact-row {
         min-width: 0 !important;
-        max-width: calc(100vw - 156px);
-        column-gap: 6px !important;
+        max-width: calc(100vw - 132px);
+        column-gap: 4px !important;
       }
 
       #header_container .offline-header-contact-group,
@@ -181,16 +181,17 @@
         min-width: 0 !important;
       }
 
-      #header_container .offline-header-phone-number,
-      #header_container .offline-header-location-text {
-        font-size: 11px;
-        line-height: 1.1;
+      #header_container .offline-header-phone-number {
+        display: none !important;
       }
 
       #header_container .offline-header-location-text {
-        max-width: 118px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 10px;
+        line-height: 1.1;
+        white-space: nowrap;
+        max-width: none;
+        overflow: visible;
+        text-overflow: clip;
       }
     }
   `;
@@ -256,6 +257,11 @@
       phoneGroup.append(phoneNumber);
 
       phoneControl.addEventListener('click', (event) => {
+        if (window.matchMedia('(max-width: 600px)').matches) {
+          event.preventDefault();
+          window.location.href = 'tel:+79209494007';
+          return;
+        }
         event.preventDefault();
         const isVisible = phoneNumber.classList.toggle('is-visible');
         phoneControl.setAttribute('aria-expanded', isVisible ? 'true' : 'false');
