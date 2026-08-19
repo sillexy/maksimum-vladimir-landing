@@ -62,7 +62,7 @@
     }
 
     #header_container .offline-header-phone-number.is-visible {
-      max-width: 116px;
+      max-width: 160px;
       margin-left: 3px !important;
       opacity: 1;
       transform: translateX(0);
@@ -216,8 +216,8 @@
       const phoneNumber = document.createElement('a');
       phoneNumber.className = 'offline-header-phone-number';
       phoneNumber.href = 'tel:+79209494007';
-      phoneNumber.textContent = '+79209494007';
-      phoneNumber.setAttribute('aria-label', 'Позвонить +79209494007');
+      phoneNumber.textContent = '+7 (920) 949-40-07';
+      phoneNumber.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07');
       phoneGroup.append(phoneNumber);
 
       phoneControl.addEventListener('click', (event) => {
@@ -440,7 +440,7 @@
 
     if (phoneLink) {
       phoneLink.href = 'tel:+79209494007';
-      phoneLink.setAttribute('aria-label', 'Позвонить +79209494007');
+      phoneLink.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07');
     }
 
     if (socialLink) {
@@ -506,8 +506,8 @@
     const mainPhone = document.createElement('a');
     mainPhone.className = 'offline-vladimir-footer__link offline-vladimir-footer__main-phone';
     mainPhone.href = 'tel:+79209494007';
-    mainPhone.textContent = '+79209494007';
-    mainPhone.setAttribute('aria-label', 'Позвонить +79209494007');
+    mainPhone.textContent = '+7 (920) 949-40-07';
+    mainPhone.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07');
 
     const privacy = document.createElement('a');
     privacy.className = 'offline-vladimir-footer__link offline-vladimir-footer__privacy';
