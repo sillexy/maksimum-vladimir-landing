@@ -154,9 +154,34 @@
     }
 
     @media (max-width: 600px) {
+      #header_container {
+        height: 56px !important;
+        min-height: 56px !important;
+      }
+
+      #header_container header {
+        height: 56px !important;
+        min-height: 56px !important;
+        display: flex !important;
+        align-items: center !important;
+      }
+
+      #header_container header > div {
+        height: 56px !important;
+        min-height: 56px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+      }
+
       #header_container [data-offline-header-logo-home] {
         flex: 0 0 auto !important;
         max-width: 116px !important;
+        align-self: center !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
       }
 
       #header_container [data-offline-header-logo-home] img,
@@ -168,17 +193,28 @@
         max-height: 30px !important;
         object-fit: contain !important;
         object-position: left center !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
       }
 
       #header_container .offline-header-contact-row {
         min-width: 0 !important;
         max-width: calc(100vw - 132px);
         column-gap: 4px !important;
+        height: 56px !important;
+        align-items: center !important;
+        align-self: center !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
       }
 
       #header_container .offline-header-contact-group,
       #header_container .offline-header-contact-control {
         min-width: 0 !important;
+        align-items: center !important;
+        align-self: center !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
       }
 
       #header_container .offline-header-phone-number {
