@@ -1,0 +1,16 @@
+/* Mobile header stabilization: prevent the original header from flashing before
+the offline header enhancer has built the final controls, and align the real
+location label created by offline-reviews.js. */
+@media (max-width: 599px) {
+  #header_container:not(:has(.offline-header-contact-row)) {
+    visibility: hidden !important;
+  }
+
+  #header_container:has(.offline-header-contact-row) {
+    visibility: visible !important;
+  }
+
+  #header_container .offline-header-location-text {
+    transform: translateY(-4px) !important;
+  }
+}
