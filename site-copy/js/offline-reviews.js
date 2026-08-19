@@ -152,6 +152,47 @@
         min-height: 280px;
       }
     }
+
+    @media (max-width: 600px) {
+      #header_container [data-offline-header-logo-home] {
+        flex: 0 0 auto !important;
+        max-width: 132px !important;
+      }
+
+      #header_container [data-offline-header-logo-home] img,
+      #header_container img[data-offline-header-logo-home] {
+        display: block !important;
+        width: 132px !important;
+        height: 34px !important;
+        max-width: 132px !important;
+        max-height: 34px !important;
+        object-fit: contain !important;
+        object-position: left center !important;
+      }
+
+      #header_container .offline-header-contact-row {
+        min-width: 0 !important;
+        max-width: calc(100vw - 156px);
+        column-gap: 6px !important;
+      }
+
+      #header_container .offline-header-contact-group,
+      #header_container .offline-header-contact-control {
+        min-width: 0 !important;
+      }
+
+      #header_container .offline-header-phone-number,
+      #header_container .offline-header-location-text {
+        font-size: 11px;
+        line-height: 1.1;
+      }
+
+      #header_container .offline-header-location-text {
+        max-width: 118px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   `;
   document.head.append(style);
 
