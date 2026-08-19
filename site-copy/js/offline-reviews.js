@@ -243,6 +243,53 @@
     window.setTimeout(() => observer.disconnect(), 10000);
   }
 
+  const enhanceHeaderLogo = () => {
+    const header = document.querySelector('#header_container');
+    if (!header) return false;
+
+    const explicitLogo = header.querySelector('[data-qa*="logo" i]');
+    const logoImage = Array.from(header.querySelectorAll('img')).find((image) => {
+      const src = image.currentSrc || image.getAttribute('src') || '';
+      const alt = image.getAttribute('alt') || '';
+      return /maximum/i.test(src) || /maximum/i.test(alt);
+    });
+    const logo = explicitLogo || logoImage;
+    if (!logo) return false;
+
+    const logoControl = logo.closest('a, button') || logo;
+    if (logoControl.hasAttribute('data-offline-header-logo-home')) return true;
+
+    logoControl.setAttribute('data-offline-header-logo-home', 'true');
+    logoControl.style.cursor = 'pointer';
+    if (!logoControl.matches('a, button')) {
+      logoControl.setAttribute('role', 'button');
+      logoControl.setAttribute('tabindex', '0');
+    }
+
+    const goToPageTop = (event) => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    logoControl.addEventListener('click', goToPageTop, true);
+    if (!logoControl.matches('a, button')) {
+      logoControl.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') goToPageTop(event);
+      });
+    }
+
+    return true;
+  };
+
+  if (!enhanceHeaderLogo()) {
+    const logoObserver = new MutationObserver(() => {
+      if (enhanceHeaderLogo()) logoObserver.disconnect();
+    });
+    logoObserver.observe(document.documentElement, { childList: true, subtree: true });
+    window.setTimeout(() => logoObserver.disconnect(), 10000);
+  }
+
   const updateHeroTitle = () => {
     const expectedTitle = 'Бесплатная консультация по профориентации';
     const heading = Array.from(document.querySelectorAll('h1')).find(
