@@ -298,8 +298,8 @@
       }
     });
 
-    const contactLinksRow = leadRoot.querySelector('.sc-66c7e2be-2');
-    contactLinksRow?.remove();
+    const contactBlocks = leadRoot.querySelectorAll('.sc-66c7e2be-0');
+    contactBlocks.forEach((block) => block.remove());
   }
 
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
