@@ -527,3 +527,10 @@ header ul.sc-af66aef5-0 > li {
     max-height: 64%;
   }
 }
+
+@media (max-width: 599px) {
+  #header_container [data-qa="headerPhone"],
+  #header_container [data-qa="headerPhone"] + div {
+    transform: translateY(-4px);
+  }
+}
