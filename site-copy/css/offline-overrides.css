@@ -533,4 +533,18 @@ header ul.sc-af66aef5-0 > li {
   #header_container [data-qa="headerPhone"] + div {
     transform: translateY(-4px);
   }
+
+  #966e7824-d812-40ab-a24f-38a2bcae1eb30 .sc-e03c5056-8 {
+    height: auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  #966e7824-d812-40ab-a24f-38a2bcae1eb30 img[src="images/image-54fa23705b.jpg"] {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
 }
