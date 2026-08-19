@@ -529,9 +529,12 @@ header ul.sc-af66aef5-0 > li {
 }
 
 @media (max-width: 599px) {
-  #header_container [data-qa="headerPhone"],
-  #header_container [data-qa="headerPhone"] + div {
-    transform: translateY(-4px);
+  #header_container [data-qa="headerPhone"] {
+    transform: translateY(-4px) !important;
+  }
+
+  #header_container .sc-af66aef5-3 {
+    transform: translateY(-4px) !important;
   }
 
   #966e7824-d812-40ab-a24f-38a2bcae1eb30 .sc-e03c5056-8 {
