@@ -3,19 +3,21 @@ import unittest
 
 
 class ConsultationContactLinksTests(unittest.TestCase):
-    def test_contact_icons_use_phone_and_vk_only(self):
+    def test_contact_icon_row_and_icon_generation_are_removed_from_code(self):
         root = Path(__file__).parents[1]
-        script = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
+        override = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
+        base = (root / "site-copy" / "js" / "offline-reviews-base.js").read_text(encoding="utf-8")
 
-        self.assertIn("const updateConsultationContacts = () =>", script)
-        self.assertIn("mailto:", script)
-        self.assertIn("mailLink.remove()", script)
-        self.assertIn("phoneLink.href = 'tel:+79209494007'", script)
-        self.assertIn("https://vk.ru/maximumvld", script)
-        self.assertIn("socialLink.target = '_blank'", script)
-        self.assertIn("socialLink.rel = 'noopener noreferrer'", script)
-        self.assertIn("offline-contact-icon--vk", script)
-        self.assertIn("baseScript.addEventListener('load'", script)
+        self.assertNotIn("const updateConsultationContacts = () =>", override)
+        self.assertNotIn("offline-contact-icon--vk", override)
+        self.assertNotIn("https://vk.ru/maximumvld", override)
+
+        self.assertNotIn("const iconEnvelope", base)
+        self.assertNotIn("const iconPhone", base)
+        self.assertNotIn("const iconTelegram", base)
+        self.assertNotIn("const iconSvgs", base)
+        self.assertIn("const contactLinksRow = leadRoot.querySelector('.sc-66c7e2be-2')", base)
+        self.assertIn("contactLinksRow?.remove()", base)
 
 
 if __name__ == "__main__":
