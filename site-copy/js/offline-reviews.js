@@ -417,37 +417,6 @@
     window.setTimeout(() => consultationCardObserver.disconnect(), 15000);
   }
 
-  const updateConsultationContacts = () => {
-    const leadRoot = document.getElementById('50f91115-b4f9-4cd8-aba9-a46e915220334');
-    if (!leadRoot) return false;
-    const links = Array.from(leadRoot.querySelectorAll('.sc-66c7e2be-2 a'));
-    if (!links.length) return false;
-
-    const mailLink = links.find((link) => (link.getAttribute('href') || '').startsWith('mailto:'));
-    const phoneLink = links.find((link) => (link.getAttribute('href') || '').startsWith('tel:'));
-    const socialLink = links.find((link) => {
-      const href = link.getAttribute('href') || '';
-      return !href.startsWith('mailto:') && !href.startsWith('tel:');
-    });
-
-    if (mailLink) mailLink.remove();
-
-    if (phoneLink) {
-      phoneLink.href = 'tel:+79209494007';
-      phoneLink.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07');
-    }
-
-    if (socialLink) {
-      socialLink.href = 'https://vk.ru/maximumvld';
-      socialLink.target = '_blank';
-      socialLink.rel = 'noopener noreferrer';
-      socialLink.setAttribute('aria-label', 'ВКонтакте Maximum Владимир');
-      socialLink.innerHTML = '<svg class="offline-contact-icon offline-contact-icon--vk" viewBox="0 0 25 25" aria-hidden="true"><circle cx="12.5" cy="12.5" r="12.5" fill="#2787F5"/><text x="12.5" y="16.5" text-anchor="middle" font-size="10" font-family="Arial,sans-serif" font-weight="700" fill="#fff">VK</text></svg>';
-    }
-
-    return Boolean(phoneLink && socialLink && !leadRoot.querySelector('.sc-66c7e2be-2 a[href^="mailto:"]'));
-  };
-
   const findFooter = () => {
     const semanticFooter = document.querySelector('footer');
     if (semanticFooter) return semanticFooter;
@@ -536,7 +505,6 @@
   baseScript.src = 'js/offline-reviews-base.js';
   baseScript.defer = true;
   baseScript.addEventListener('load', () => {
-    updateConsultationContacts();
     renderVladimirFooter();
   });
   document.head.append(baseScript);
