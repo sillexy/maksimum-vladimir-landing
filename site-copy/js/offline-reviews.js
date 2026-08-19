@@ -115,12 +115,6 @@
       text-decoration: underline;
     }
 
-    .offline-vladimir-footer__main-phone {
-      margin-top: 22px;
-      font-size: 18px;
-      font-weight: 600;
-    }
-
     .offline-vladimir-footer__privacy {
       margin-top: 18px;
     }
@@ -500,21 +494,16 @@
 
     const oldPhone = document.createElement('a');
     oldPhone.className = 'offline-vladimir-footer__link';
-    oldPhone.href = 'tel:88007072562';
-    oldPhone.textContent = '8 (800) 707-25-62';
-
-    const mainPhone = document.createElement('a');
-    mainPhone.className = 'offline-vladimir-footer__link offline-vladimir-footer__main-phone';
-    mainPhone.href = 'tel:+79209494007';
-    mainPhone.textContent = '+7 (920) 949-40-07';
-    mainPhone.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07');
+    oldPhone.href = 'tel:+79209494007';
+    oldPhone.textContent = '+7 (920) 949-40-07';
+    oldPhone.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07');
 
     const privacy = document.createElement('a');
     privacy.className = 'offline-vladimir-footer__link offline-vladimir-footer__privacy';
     privacy.href = privacyHref;
     privacy.textContent = 'Политика обработки персональных данных';
 
-    legal.append(company, consultationLabel, oldPhone, mainPhone, privacy);
+    legal.append(company, consultationLabel, oldPhone, privacy);
 
     const mapWrap = document.createElement('div');
     mapWrap.className = 'offline-vladimir-footer__map-wrap';
