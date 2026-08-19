@@ -14,3 +14,12 @@ location label created by offline-reviews.js. */
     transform: translateY(-4px) !important;
   }
 }
+
+/* The original mobile hero pulls its image wrapper 10px below the card with a
+negative bottom margin. Neutralize that offset so the illustration stays inside
+the rounded hero boundary. */
+@media (max-width: 767px) {
+  #966e7824-d812-40ab-a24f-38a2bcae1eb3 .sc-e03c5056-8 {
+    margin-bottom: 0 !important;
+  }
+}
