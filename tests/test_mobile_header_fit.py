@@ -3,19 +3,23 @@ import unittest
 
 
 class MobileHeaderFitTests(unittest.TestCase):
-    def test_mobile_header_content_is_compacted_without_affecting_desktop(self):
+    def test_mobile_header_is_shorter_and_vertically_centered(self):
         root = Path(__file__).parents[1]
         script = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
 
-        self.assertIn("@media (max-width: 600px)", script)
-        self.assertIn("[data-offline-header-logo-home] img", script)
-        self.assertIn("img[data-offline-header-logo-home]", script)
-        self.assertIn("width: 132px !important;", script)
-        self.assertIn("height: 34px !important;", script)
-        self.assertIn("#header_container .offline-header-contact-row", script)
-        self.assertIn("column-gap: 6px !important;", script)
-        self.assertIn("font-size: 11px;", script)
-        self.assertIn("max-width: 118px;", script)
+        mobile_css = script[script.find("@media (max-width: 600px)"):script.find("  `;", script.find("@media (max-width: 600px)"))]
+
+        self.assertIn("#header_container {", mobile_css)
+        self.assertIn("height: 56px !important;", mobile_css)
+        self.assertIn("min-height: 56px !important;", mobile_css)
+        self.assertIn("#header_container header {", mobile_css)
+        self.assertIn("align-items: center !important;", mobile_css)
+        self.assertIn("#header_container header > div {", mobile_css)
+        self.assertIn("padding-top: 0 !important;", mobile_css)
+        self.assertIn("padding-bottom: 0 !important;", mobile_css)
+        self.assertIn("#header_container [data-offline-header-logo-home] {", mobile_css)
+        self.assertIn("align-self: center !important;", mobile_css)
+        self.assertIn("#header_container .offline-header-contact-row {", mobile_css)
 
 
 if __name__ == "__main__":
