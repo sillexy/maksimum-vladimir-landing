@@ -77,3 +77,26 @@ space between copy and art stays intentionally small. */
     object-position: right bottom !important;
   }
 }
+
+/* Mobile reviews: do not force short reviews into the desktop 382px card
+height. Let each slide and card end after its actual content; reserve extra
+bottom space only when the "read full" control is present. */
+@media (max-width: 600px) {
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .splide__slide,
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-3456f945-0,
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-3456f945-1,
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .sc-af0bad81-0 {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 20px !important;
+  }
+
+  [id="1a104f13-de4c-4b7f-a7bb-ffc403b3ee203"] .offline-review-card:has(.offline-review-card__more) {
+    padding-bottom: 58px !important;
+  }
+}
