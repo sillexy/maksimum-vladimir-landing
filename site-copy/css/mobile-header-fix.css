@@ -40,3 +40,40 @@ left the subject touching the clipping edge even after that margin was reset. */
     object-fit: contain !important;
   }
 }
+
+/* Mobile advantages: let the expert/advice cards size to their content instead
+of reserving two fixed 360px rows. Keep the illustration in normal flow so the
+space between copy and art stays intentionally small. */
+@media (max-width: 600px) {
+  .offline-advantages__side {
+    grid-template-rows: none !important;
+    grid-auto-rows: auto !important;
+  }
+
+  .offline-advantages__card--experts,
+  .offline-advantages__card--advice {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+
+  .offline-advantages__copy--experts,
+  .offline-advantages__copy--advice {
+    width: 100% !important;
+    padding: 22px 22px 0 !important;
+  }
+
+  .offline-advantages__image--experts,
+  .offline-advantages__image--advice {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    align-self: flex-end !important;
+    width: 88% !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 14px 0 0 !important;
+    object-fit: contain !important;
+    object-position: right bottom !important;
+  }
+}
