@@ -28,6 +28,19 @@ class HeaderContactRevealTests(unittest.TestCase):
         self.assertIn('min-width: 0 !important;', script)
         self.assertIn('margin-left: 3px;', script)
 
+    def test_mobile_phone_calls_directly_and_location_is_not_truncated(self):
+        root = Path(__file__).parents[1]
+        script = (root / "site-copy" / "js" / "offline-reviews.js").read_text(encoding="utf-8")
+
+        self.assertIn("window.matchMedia('(max-width: 600px)').matches", script)
+        self.assertIn("window.location.href = 'tel:+79209494007'", script)
+        mobile_css = script[script.find('@media (max-width: 600px)'):script.find('  `;', script.find('@media (max-width: 600px)'))]
+        self.assertIn('.offline-header-phone-number {\n        display: none !important;', mobile_css)
+        self.assertIn('white-space: nowrap;', mobile_css)
+        self.assertIn('max-width: none;', mobile_css)
+        self.assertNotIn('text-overflow: ellipsis', mobile_css)
+        self.assertNotIn('overflow: hidden', mobile_css)
+
 
 if __name__ == "__main__":
     unittest.main()
