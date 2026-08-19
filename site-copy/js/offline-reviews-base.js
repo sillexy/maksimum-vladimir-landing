@@ -141,6 +141,60 @@
         background: #fff1e6 !important;
         font-weight: 600 !important;
       }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts {
+        margin-top: 56px;
+        color: #111;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__title {
+        margin: 0 0 14px;
+        font-size: 16px;
+        line-height: 1.35;
+        font-weight: 500;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__links {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #fff;
+        color: #ff8a3d;
+        text-decoration: none;
+        transition: transform .15s ease, box-shadow .15s ease;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__link:hover,
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__link:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, .12);
+        outline: none;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__link--vk {
+        background: #2787f5;
+        color: #fff;
+      }
+      [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__link svg {
+        width: 17px;
+        height: 17px;
+        display: block;
+      }
+      @media (max-width: 760px) {
+        [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts {
+          margin-top: 40px;
+        }
+        [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__title {
+          font-size: 15px;
+        }
+        [id="50f91115-b4f9-4cd8-aba9-a46e915220334"] .offline-consultation-contacts__link {
+          width: 30px;
+          height: 30px;
+        }
+      }
     `;
     document.head.append(formStyle);
 
@@ -300,6 +354,20 @@
 
     const contactBlocks = leadRoot.querySelectorAll('.sc-66c7e2be-0');
     contactBlocks.forEach((block) => block.remove());
+
+    const contactBlock = document.createElement('div');
+    contactBlock.className = 'offline-consultation-contacts';
+    contactBlock.innerHTML = `
+      <p class="offline-consultation-contacts__title">Как еще с нами можно связаться</p>
+      <div class="offline-consultation-contacts__links">
+        <a class="offline-consultation-contacts__link offline-consultation-contacts__link--phone" href="tel:+79209494007" aria-label="Позвонить +7 (920) 949-40-07">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z"/></svg>
+        </a>
+        <a class="offline-consultation-contacts__link offline-consultation-contacts__link--vk" href="https://vk.ru/maximumvld" target="_blank" rel="noopener noreferrer" aria-label="MAXIMUM Владимир во ВКонтакте">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.64 17.5c-5.46 0-8.57-3.74-8.7-9.96h2.74c.09 4.57 2.11 6.5 3.71 6.9V7.54h2.58v3.94c1.58-.17 3.24-1.97 3.8-3.94h2.58a7.58 7.58 0 0 1-3.52 4.94 7.86 7.86 0 0 1 4.12 5.02h-2.84c-.61-1.89-2.13-3.35-4.14-3.55v3.55h-.33Z"/></svg>
+        </a>
+      </div>`;
+    leadRoot.append(contactBlock);
   }
 
   const section = document.getElementById('1a104f13-de4c-4b7f-a7bb-ffc403b3ee203');
