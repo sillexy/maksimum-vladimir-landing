@@ -9,8 +9,9 @@ class HeaderContactRevealTests(unittest.TestCase):
 
         self.assertIn('[data-qa="headerPhone"]', script)
         self.assertIn('[data-qa="headerLocationButton"]', script)
-        self.assertIn('+79209494007', script)
         self.assertIn("phoneNumber.href = 'tel:+79209494007'", script)
+        self.assertIn("phoneNumber.textContent = '+7 (920) 949-40-07'", script)
+        self.assertIn("phoneNumber.setAttribute('aria-label', 'Позвонить +7 (920) 949-40-07')", script)
         self.assertIn('Владимирская область', script)
         self.assertIn('preventDefault()', script)
         self.assertIn('aria-expanded', script)
