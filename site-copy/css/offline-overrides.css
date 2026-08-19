@@ -537,6 +537,12 @@ header ul.sc-af66aef5-0 > li {
     transform: translateY(-4px) !important;
   }
 
+  #header_container .offline-header-location,
+  #header_container [data-qa="headerLocationButton"] + .offline-header-location {
+    position: relative !important;
+    top: -4px !important;
+  }
+
   #966e7824-d812-40ab-a24f-38a2bcae1eb30 .sc-e03c5056-8 {
     height: auto !important;
     margin-bottom: 0 !important;
